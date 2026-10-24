@@ -1,0 +1,21 @@
+# build
+build/
+*/build/
+.gradle/
+.gradle-cache/
+local.properties
+
+# ide
+.idea/
+*.iml
+.DS_Store
+
+# artifacts
+*.apk
+*.aab
+*.zip
+
+# misc
+captures/
+.externalNativeBuild/
+.cxx/

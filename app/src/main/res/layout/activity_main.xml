@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AetherPort Container"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textSize="13sp"
+        android:lineSpacingExtra="3dp"
+        android:fontFamily="monospace" />
+
+    <Button
+        android:id="@+id/btn_install_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Install from device" />
+
+    <Button
+        android:id="@+id/btn_launch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Launch in container" />
+
+    <Button
+        android:id="@+id/btn_plugin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prepare plugin (cache → workspace)" />
+
+    <Button
+        android:id="@+id/btn_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verify gates + stage log" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="stage log"
+        android:textStyle="bold"
+        android:textSize="12sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            android:fontFamily="monospace" />
+
+    </ScrollView>
+
+</LinearLayout>
