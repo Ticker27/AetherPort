@@ -41,7 +41,8 @@ public final class InstrumentationProxy extends Instrumentation {
     }
 
     @Override
-    public Activity newActivity(ClassLoader cl, String className, Intent intent) {
+    public Activity newActivity(ClassLoader cl, String className, Intent intent)
+            throws InstantiationException, IllegalAccessException, ClassNotFoundException {
         // เกสต์อาจยังไม่ถูกเตรียมใน process นี้ (process เพิ่งเกิดจาก stub intent)
         // → เตรียมตอนนี้ ก่อนสร้าง Activity (เป็นจุดแรกที่รู้ชื่อ package ของเกสต์)
         if (!GuestIdentity.isPrepared() && intent != null) {
