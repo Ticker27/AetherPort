@@ -18,13 +18,22 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install platform 34 + build-tools
+      # runner ของ GitHub มี Android SDK ติดมาอยู่แล้ว — ใช้ตัวนั้นตรง ๆ
+      # (ไม่ใช้ android-actions/setup-android@v3 เพราะมันเรียก `sdkmanager tools` ซึ่งเลิกมีแล้ว)
+      - name: Android SDK (preinstalled) + platform 34
         run: |
-          yes | sdkmanager --licenses > /dev/null 2>&1 || true
-          sdkmanager "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+          set -e
+          if [ -z "$ANDROID_HOME" ] || [ ! -d "$ANDROID_HOME" ]; then
+            export ANDROID_HOME="${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}"
+          fi
+          export ANDROID_SDK_ROOT="$ANDROID_HOME"
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> "$GITHUB_ENV"
+          SDKM=$(ls -d "$ANDROID_HOME"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | head -1)
+          echo "sdkmanager=$SDKM"
+          yes | "$SDKM" --licenses --sdk_root="$ANDROID_HOME" > /dev/null 2>&1 || true
+          "$SDKM" --sdk_root="$ANDROID_HOME" "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+          ls "$ANDROID_HOME/platforms"
 
       - name: Gradle 8.7
         uses: gradle/actions/setup-gradle@v3
@@ -44,19 +53,18 @@ jobs:
           echo "AAPT2=$AAPT2"
           "$AAPT2" dump xmltree --file AndroidManifest.xml "$APK" > /tmp/tree.txt
           grep -q "MiniApp" /tmp/tree.txt
-          grep -q "StubActivity\$C0" /tmp/tree.txt
-          grep -q "StubActivity\$C1" /tmp/tree.txt
+          grep -q 'StubActivity\$C0' /tmp/tree.txt
+          grep -q 'StubActivity\$C1' /tmp/tree.txt
           grep -q ":p0" /tmp/tree.txt
           echo "gate ok: MiniApp + StubActivity\$C0/C1 + :p0 present"
 
-      - name: Gate — classes present in dex
+      - name: Gate — hook classes present in dex
         run: |
           set -e
           APK=$(find app/build/outputs/apk/debug -name '*.apk' | head -1)
           unzip -o -q "$APK" 'classes*.dex' -d /tmp/dex
           ls -la /tmp/dex
-          # ยืนยันว่า class ของ hook ถูก compile เข้า dex จริง
-          for c in HookManager IActivityManagerProxy IPackageManagerProxy InstrumentationProxy HCallbackProxy GuestRuntime GuestResources StubActivity; do
+          for c in HookManager IActivityManagerProxy IPackageManagerProxy InstrumentationProxy HCallbackProxy GuestRuntime GuestResources StubActivity StubActivityRecord; do
             if grep -aq "$c" /tmp/dex/classes*.dex; then echo "ok $c"; else echo "MISSING $c"; exit 1; fi
           done
 
@@ -74,5 +82,4 @@ jobs:
           name: build-reports
           path: |
             app/build/reports/**
-            app/build/outputs/logs/**
           if-no-files-found: ignore
