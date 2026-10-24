@@ -1,5 +1,10 @@
 # AetherPort — Android container engine (VirtualApp-shaped v2)
 
+[![build](https://github.com/Ticker27/AetherPort/actions/workflows/build.yml/badge.svg)](https://github.com/Ticker27/AetherPort/actions/workflows/build.yml)
+
+> **CI:** ✅ `assembleDebug` ผ่าน · gate manifest (`MiniApp` + `StubActivity$C0/C1` + `:p0`) ผ่าน ·
+> gate dex (HookManager/…Proxy/GuestRuntime/GuestResources/StubActivity) ผ่าน · artifact: `AetherPort-apk`
+
 รันแอปเป้าหมายใน process ของเราเอง ด้วยกลไกเดียวกับ
 [VirtualApp](https://github.com/asLody/VirtualApp): **stub component + AMS/PMS proxy + HCallback**
 
