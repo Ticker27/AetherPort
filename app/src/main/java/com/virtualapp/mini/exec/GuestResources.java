@@ -73,13 +73,13 @@ public final class GuestResources {
         Resources res = get(ctx, pkg);
         if (res == null) return;
         try {
-            java.lang.reflect.Field f = android.content.ContextThemeWrapper.class
+            java.lang.reflect.Field f = android.view.ContextThemeWrapper.class
                     .getDeclaredField("mResources");
             f.setAccessible(true);
             f.set(activity, res);
 
             // theme ต้องสร้างใหม่จาก resources ของเกม ไม่งั้น theme id ของเกมจะไม่รู้จัก
-            java.lang.reflect.Field t = android.content.ContextThemeWrapper.class
+            java.lang.reflect.Field t = android.view.ContextThemeWrapper.class
                     .getDeclaredField("mTheme");
             t.setAccessible(true);
             t.set(activity, null);

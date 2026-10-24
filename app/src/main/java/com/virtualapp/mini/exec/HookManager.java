@@ -82,7 +82,7 @@ public final class HookManager {
         // 2) PackageManager — ตอบคำถามเรื่อง package ของเกสต์
         sPms = IPackageManagerProxy.install(ctx);
         // 3) Instrumentation — สร้าง Activity จาก guest loader
-        sInstr = InstrumentationProxy.install();
+        sInstr = InstrumentationProxy.install(ctx);
         // 4) HCallback — สลับ activityInfo ก่อน LAUNCH_ACTIVITY ถูกประมวลผล
         sHcb = HCallbackProxy.install();
         boolean ams = sAms, pms = sPms, instr = sInstr, hcb = sHcb;

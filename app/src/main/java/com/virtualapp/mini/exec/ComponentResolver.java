@@ -140,7 +140,6 @@ public final class ComponentResolver {
         ai.sourceDir = apk;
         ai.publicSourceDir = apk;
         ai.nativeLibraryDir = SandboxStore.guestLibDir(ctx, pkg).getAbsolutePath();
-        ai.publicNativeLibraryDir = ai.nativeLibraryDir;
         ai.dataDir = SandboxStore.guestUserDataDir(ctx, pkg).getAbsolutePath();
         ai.processName = ctx.getPackageName() + GuestIdentity.PROC_0;
         ai.uid = ctx.getApplicationInfo().uid;

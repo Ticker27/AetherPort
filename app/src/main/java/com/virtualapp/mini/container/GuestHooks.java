@@ -34,11 +34,13 @@ public final class GuestHooks {
     }
 
     /** ค่าเริ่มต้น = พอร์ตจริงจาก AetherEngine container/PluginInstaller */
-    public static volatile PluginInstaller pluginInstaller = PluginInstaller::ensurePlugin;
+    public static volatile PluginInstaller pluginInstaller =
+            com.virtualapp.mini.container.PluginInstaller::ensurePlugin;
 
     /** ค่าเริ่มต้น = พอร์ตจริงจาก AetherEngine container/PluginLoader */
     public static volatile PluginLoader pluginLoader =
-            (ctx, pkg, loader) -> PluginLoader.load(ctx, pkg, loader).toString();
+            (ctx, pkg, loader) ->
+                    com.virtualapp.mini.container.PluginLoader.load(ctx, pkg, loader).toString();
 
     /** ยังไม่พอร์ตในโปรเจกต์นี้ — false = ไม่ติดตั้ง */
     public static volatile FakeFramework fakeFramework = null;

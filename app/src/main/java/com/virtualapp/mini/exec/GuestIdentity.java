@@ -1,6 +1,5 @@
 package com.virtualapp.mini.exec;
 
-import android.app.ActivityThread;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
